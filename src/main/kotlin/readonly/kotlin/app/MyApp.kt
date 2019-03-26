@@ -10,7 +10,8 @@ class PersonModel(person: Person) : ItemViewModel<Person>(person) {
     val lastname = observable(person, Person::getLastname, Person::setLastname)
 }
 
-val personList = listOf(PersonModel(Person("Martin", "Fowler"))).observable()
+val personList = listOf(Person("martin", "fowler")).observable()
+val personModelList = listOf(PersonModel(Person("Martin", "Fowler"))).observable()
 
 class MainView : View() {
     override val root = borderpane {
@@ -20,14 +21,14 @@ class MainView : View() {
 }
 
 class LeftView : View() {
-    override val root = tableview(personList) {
+    override val root = tableview(personModelList) {
         column("first name", PersonModel::firstname)
         column("last name", PersonModel::lastname)
     }
 }
 class RightView : View() {
     override val root = tableview(personList) {
-        readonlyColumn("first name", PersonModel::firstname)
-        readonlyColumn("last name", PersonModel::lastname)
+        readonlyColumn("first name", Person::getFirstname)
+        readonlyColumn("last name", Person::getLastname)
     }
 }
